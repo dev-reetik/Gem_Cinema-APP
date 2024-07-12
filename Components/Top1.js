@@ -1,52 +1,102 @@
-import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { Button } from "@react-native-material/core";
+import { useState, useEffect } from "react";
 
 export default function Top1() {
+  const [background, setBackground] = useState(null);
+  const [title, settitle] = useState(null);
+  const [genere, setgenere] = useState(null);
+  const [year, setyear] = useState(null);
+ 
+  const [loading, setloading] = useState(null);
+  const [error, seterror] = useState(null);
+
+  const options = {
+    method: "GET",
+    headers: {
+      "x-rapidapi-key": "8b7863e40emshd236653d3dff220p1b87c8jsnb6fe9677942b",
+      "x-rapidapi-host": "imdb-top-100-movies.p.rapidapi.com",
+    },
+  };
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const response = await fetch(
+          "https://imdb-top-100-movies.p.rapidapi.com/",
+          options
+        );
+        if (!response.ok) {
+          throw new error("NETWORK NOT OK");
+        }
+
+        const background = await response.json();
+        const topMovie = background.find((movie) => movie.rank === 1);
+        const backgroundImageUrl = topMovie.image;
+        const title = topMovie.title;
+        const genre = topMovie.genre;
+        const year = topMovie.year;
+        console.log(topMovie);
+        setBackground(backgroundImageUrl);
+        settitle(title);
+        setgenere(genre);
+        setyear(year);
+       
+      } catch (error) {
+        seterror(error);
+      } finally {
+        setloading(false);
+      }
+    };
+    fetchdata();
+  }, []);
+
+  if (loading) {
+    return <Text>loading</Text>;
+  }
+
+  if (error) {
+    return <Text>{error.message}</Text>;
+  }
+
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+      <ImageBackground
+        source={{
+          uri: `${background}`,
         }}
+        style={styles.backgroundImage}
+        imageStyle={styles.imageStyle}
       >
-        <ImageBackground
-          source={{
-            uri: "https://cdn.prod.website-files.com/6009ec8cda7f305645c9d91b/6408f6e7b5811271dc883aa8_batman-min.png",
-          }}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: 500,
-            height: 500,
-            resizeMode: "cover",
-
-            backgroundColor: "black",
-          }}
-        ></ImageBackground>
-
         <LinearGradient
-          colors={["transparent", "rgba(0,0,0,0.8)"]} // Adjust the gradient colors and opacity as needed
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            bottom: 0,
-            height: "50%",
+          colors={["transparent", "rgba(0,0,0,0.8)"]}
+          style={styles.gradient}
+        />
+      </ImageBackground>
+
+      <View style={styles.movieDetails}>
+        <Text style={styles.title}>{title}</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>{year}</Text>
+          <Text style={styles.infoText}>{genere}</Text>
+          <Text style={styles.infoText}>rating</Text>
+        </View>
+
+        <Button
+          variant="outlined"
+          title="WATCH TRAILER"
+          color="red"
+          style={styles.button}
+          onPress={() => {
+            console.log("trailer");
           }}
         />
-      </View>
-      <View style={{ padding: 30, display:'flex', alignItems:'center' }}>
-        <Text style={{ fontSize: 30, letterSpacing:10, fontWeight:'700', color: "white", alignItems: "center" }}>
-         BATMAN
+
+        <Text style={styles.description}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </Text>
-        <View style={{display:'flex', flexDirection:'row', gap:20}} >
-        <Text style={{color:'white'}} >2014 </Text>
-        <Text style={{color:'white'}} >Adventure, Comedy</Text>
-        <Text style={{color:'white'}} >2h 14m</Text>
-        </View>
       </View>
     </View>
   );
@@ -54,7 +104,48 @@ export default function Top1() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  backgroundImage: {
+    width: 400,
+    height: 500,
+    resizeMode: "center",
+  },
+  imageStyle: {
+    backgroundColor: "black",
+  },
+  gradient: {
+    ...StyleSheet.absoluteFillObject,
+    height: "100%",
+  },
+  movieDetails: {
+    padding: 30,
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 20,
+    letterSpacing: 5,
+    fontWeight: "700",
+    color: "white",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  infoContainer: {
+    flexDirection: "row",
+    marginBottom: 10,
+  },
+  infoText: {
+    color: "white",
+    marginRight: 20,
+  },
+  button: {
+    marginTop: 20,
+  },
+  description: {
+    color: "white",
+    marginTop: 10,
+    textAlign: "center",
   },
 });
