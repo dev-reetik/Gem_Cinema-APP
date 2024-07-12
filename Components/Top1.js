@@ -16,7 +16,7 @@ export default function Top1() {
   const options = {
     method: "GET",
     headers: {
-      "x-rapidapi-key": "8b7863e40emshd236653d3dff220p1b87c8jsnb6fe9677942b",
+      "x-rapidapi-key": "Enter your key ",
       "x-rapidapi-host": "imdb-top-100-movies.p.rapidapi.com",
     },
   };
