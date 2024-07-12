@@ -1,1 +1,1 @@
-# Gem_CInema-APP
+# Gem_Cinema-APP
