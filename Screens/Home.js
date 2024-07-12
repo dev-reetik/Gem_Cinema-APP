@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
+import Top1 from '../Components/Top1';
 
 export default function Home() {
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
+      <Top1/>
      
     </View>
   );
