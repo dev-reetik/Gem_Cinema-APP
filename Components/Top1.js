@@ -1,60 +1,57 @@
+// Top1.js
 import React from "react";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Button } from "@react-native-material/core";
+import Trailer from "./Trailer";
 import { useState, useEffect } from "react";
 
 export default function Top1() {
-  const [background, setBackground] = useState(null);
-  const [title, settitle] = useState(null);
-  const [genere, setgenere] = useState(null);
-  const [year, setyear] = useState(null);
- 
-  const [loading, setloading] = useState(null);
-  const [error, seterror] = useState(null);
+  const [topMovie, setTopMovie] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const options = {
     method: "GET",
     headers: {
-      "x-rapidapi-key": "Enter your key ",
-      "x-rapidapi-host": "imdb-top-100-movies.p.rapidapi.com",
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MzM2OGYzYjE1MDhiZDFmOWVkZjEwM2U2NTdkMmYyNCIsIm5iZiI6MTcyMDgzODk1OS41ODM3ODksInN1YiI6IjY2OTE2NGM2Mjg5OTIyZjM1NDA2YjZmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BY4VsXozNsxF8rKWvNj8jd70dA1cZhCqy9o2m0hgQec",
     },
   };
 
   useEffect(() => {
-    const fetchdata = async () => {
+    const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://imdb-top-100-movies.p.rapidapi.com/",
+          "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
           options
         );
         if (!response.ok) {
-          throw new error("NETWORK NOT OK");
+          throw new Error("NETWORK NOT OK");
         }
 
-        const background = await response.json();
-        const topMovie = background.find((movie) => movie.rank === 1);
-        const backgroundImageUrl = topMovie.image;
-        const title = topMovie.title;
-        const genre = topMovie.genre;
-        const year = topMovie.year;
-        console.log(topMovie);
-        setBackground(backgroundImageUrl);
-        settitle(title);
-        setgenere(genre);
-        setyear(year);
-       
+        const data = await response.json();
+        const topMovieData = data.results[0];
+        // console.log(topMovieData);
+        setTopMovie({
+          backgroundurl: topMovieData.poster_path,
+          title: topMovieData.original_title,
+          language: topMovieData.original_language,
+          year: topMovieData.release_date,
+          overview: topMovieData.overview,
+          id:topMovieData.id
+        });
       } catch (error) {
-        seterror(error);
+        setError(error);
       } finally {
-        setloading(false);
+        setLoading(false);
       }
     };
-    fetchdata();
+    fetchData();
   }, []);
 
   if (loading) {
-    return <Text>loading</Text>;
+    return <Text>Loading...</Text>;
   }
 
   if (error) {
@@ -63,41 +60,35 @@ export default function Top1() {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={{
-          uri: `${background}`,
-        }}
-        style={styles.backgroundImage}
-        imageStyle={styles.imageStyle}
-      >
-        <LinearGradient
-          colors={["transparent", "rgba(0,0,0,0.8)"]}
-          style={styles.gradient}
-        />
-      </ImageBackground>
+      {topMovie && (
+        <>
+          <ImageBackground
+            source={{
+              uri: `https://image.tmdb.org/t/p/w600_and_h900_bestv2${topMovie.backgroundurl}`,
+            }}
+            style={styles.backgroundImage}
+            imageStyle={styles.imageStyle}
+          >
+            <LinearGradient
+              colors={["transparent", "rgba(0,0,0,0.8)"]}
+              style={styles.gradient}
+            />
+          </ImageBackground>
 
-      <View style={styles.movieDetails}>
-        <Text style={styles.title}>{title}</Text>
-        <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>{year}</Text>
-          <Text style={styles.infoText}>{genere}</Text>
-          <Text style={styles.infoText}>rating</Text>
-        </View>
+          <View style={styles.movieDetails}>
+            <Text style={styles.title}>{topMovie.title}</Text>
+            <View style={styles.infoContainer}>
+              <Text style={styles.infoText}>{topMovie.year}</Text>
+              <Text style={styles.infoText}>{topMovie.language}</Text>
+              <Text style={styles.infoText}>Rating</Text>
+            </View>
 
-        <Button
-          variant="outlined"
-          title="WATCH TRAILER"
-          color="red"
-          style={styles.button}
-          onPress={() => {
-            console.log("trailer");
-          }}
-        />
+            <Trailer topMovie={topMovie} />
 
-        <Text style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </Text>
-      </View>
+            <Text style={styles.description}>{topMovie.overview}</Text>
+          </View>
+        </>
+      )}
     </View>
   );
 }
