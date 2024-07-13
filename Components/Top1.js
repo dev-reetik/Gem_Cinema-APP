@@ -15,7 +15,7 @@ export default function Top1() {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MzM2OGYzYjE1MDhiZDFmOWVkZjEwM2U2NTdkMmYyNCIsIm5iZiI6MTcyMDgzODk1OS41ODM3ODksInN1YiI6IjY2OTE2NGM2Mjg5OTIyZjM1NDA2YjZmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BY4VsXozNsxF8rKWvNj8jd70dA1cZhCqy9o2m0hgQec",
+        "Enter Your Key",
     },
   };
 

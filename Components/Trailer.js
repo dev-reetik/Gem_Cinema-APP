@@ -16,7 +16,7 @@ export default function Trailer({ topMovie }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://api.themoviedb.org/3/movie/${topMovie.id}/videos?api_key={Enter Your TMDB API KEY}`
+          `http://api.themoviedb.org/3/movie/${topMovie.id}/videos?api_key="Enter Your Key"`
         );
         if (!response.ok) {
           throw new error("Network Not OK");
