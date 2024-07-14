@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, ScrollView, View, Text, Linking } from "react-native";
 import { Button } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/native";
-import Video from "react-native-video";
+
 
 export default function Trailer({ topMovie }) {
   const navigation = useNavigation();
@@ -16,7 +16,7 @@ export default function Trailer({ topMovie }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://api.themoviedb.org/3/movie/${topMovie.id}/videos?api_key= "ADD YOUR KEY"`
+          `http://api.themoviedb.org/3/movie/${topMovie.id}/videos?api_key= "Enter Your API"`
         );
         if (!response.ok) {
           throw new error("Network Not OK");

@@ -17,7 +17,7 @@ export default function Top1() {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: 'ADD YOUR KEY',
+      Authorization: 'Enter Your API',
     },
   };
 
