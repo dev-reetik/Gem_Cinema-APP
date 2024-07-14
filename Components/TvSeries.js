@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, FlatList, StyleSheet } from "react-native";
 
-const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 
 const TvSeries = () => {
   const [movies, setMovies] = useState([]);
@@ -12,7 +12,7 @@ const TvSeries = () => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: { apiUrl },
+      Authorization: 'ADD YOUR KEY',
     },
   };
 

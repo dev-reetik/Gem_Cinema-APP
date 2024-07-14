@@ -6,7 +6,7 @@ import Trailer from "./Trailer";
 import ViewMoreText from "react-native-view-more-text";
 import { useState, useEffect } from "react";
 
-const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 
 export default function Top1() {
   const [topMovie, setTopMovie] = useState(null);
@@ -17,7 +17,7 @@ export default function Top1() {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: { apiUrl },
+      Authorization: 'ADD YOUR KEY',
     },
   };
 
