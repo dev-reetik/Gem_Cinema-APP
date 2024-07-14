@@ -20,12 +20,14 @@
     "react": "18.2.0",
     "react-native": "0.74.3",
     "react-native-video": "^6.4.1",
+    "react-native-view-more-text": "^2.2.0",
     "react-native-webview": "^13.10.5",
     "react-native-youtube": "^2.0.2",
     "react-native-youtube-iframe": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "react-native-dotenv": "^3.4.11"
   },
   "private": true
 }

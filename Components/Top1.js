@@ -3,7 +3,10 @@ import React from "react";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Trailer from "./Trailer";
+import ViewMoreText from "react-native-view-more-text";
 import { useState, useEffect } from "react";
+
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 export default function Top1() {
   const [topMovie, setTopMovie] = useState(null);
@@ -14,8 +17,7 @@ export default function Top1() {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Enter Your Key",
+      Authorization: { apiUrl },
     },
   };
 
@@ -39,7 +41,8 @@ export default function Top1() {
           language: topMovieData.original_language,
           year: topMovieData.release_date,
           overview: topMovieData.overview,
-          id:topMovieData.id
+          id: topMovieData.id,
+          rating: topMovieData.popularity,
         });
       } catch (error) {
         setError(error);
@@ -57,6 +60,23 @@ export default function Top1() {
   if (error) {
     return <Text>{error.message}</Text>;
   }
+
+  const renderViewMore = (onPress) => (
+    <Text
+      style={{ color: "orange", alignSelf: "flex-end", fontWeight: "bold" }}
+      onPress={onPress}
+    >
+      MORE
+    </Text>
+  );
+  const renderViewLess = (onPress) => (
+    <Text
+      style={{ color: "orange", alignSelf: "flex-end", fontWeight: "bold" }}
+      onPress={onPress}
+    >
+      LESS
+    </Text>
+  );
 
   return (
     <View style={styles.container}>
@@ -80,12 +100,19 @@ export default function Top1() {
             <View style={styles.infoContainer}>
               <Text style={styles.infoText}>{topMovie.year}</Text>
               <Text style={styles.infoText}>{topMovie.language}</Text>
-              <Text style={styles.infoText}>Rating</Text>
+              <Text style={styles.infoText}>{topMovie.rating}</Text>
             </View>
 
             <Trailer topMovie={topMovie} />
-
-            <Text style={styles.description}>{topMovie.overview}</Text>
+            <View style={{ display: "flex", marginTop: 20 }}></View>
+            <ViewMoreText
+              numberOfLines={2}
+              renderViewMore={renderViewMore}
+              renderViewLess={renderViewLess}
+              textStyle={{ textAlign: "center" }}
+            >
+              <Text style={styles.description}>{topMovie.overview}</Text>
+            </ViewMoreText>
           </View>
         </>
       )}
