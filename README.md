@@ -19,7 +19,7 @@
 Here're some of the project's best features:
 
 *   Smooth UI
-*   USING TMBD API
+*   USING TMDB API
 *   GET POPULAR MOVIES EASILY
 
 <h2>🛠️ Installation Steps:</h2>
