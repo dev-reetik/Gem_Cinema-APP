@@ -1,6 +1,6 @@
 <h1 align="center" id="title">GEM CINEMA</h1>
 
-<p id="description">Gem Cinema is an Application in which you can find out popular high rated movies easily and also get the overview of the movies The application has smooth the modern UI experience and I further also implementing the Trailer feature of each and every movie.</p>
+<p id="description">Gem Cinema is an Application in which you can find out popular high rated movies easily and also get the overview of the movies The application has smooth and modern UI experience and I further also implementing the Trailer feature of each and every movie.</p>
 
 <h2>Project Screenshots:</h2>
 
